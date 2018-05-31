@@ -55,17 +55,9 @@ control 'cis-dil-benchmark-1.1.1.3' do
   tag cis: 'distribution-independent-linux:1.1.1.3'
   tag level: 1
 
-  if os.name != 'amazon' && os.redhat? && os.release.to_i < 7 then
-    # redhat < 7 depends on zlib_deflate.ko
-    describe linux_module('jffs2') do
-      it { should_not be_loaded }
-      its(:command) { should match(%r{^insmod.*zlib_deflate.koinstall /bin/true$}) }
-    end
-  else
-    describe linux_module('jffs2') do
-      it { should_not be_loaded }
-      its(:command) { should match(%r{^install /bin/true$}) }
-    end
+  describe linux_module('jffs2') do
+    it { should_not be_loaded }
+    its(:command) { should match(%r{^install /bin/true$}) }
   end
 end
 
