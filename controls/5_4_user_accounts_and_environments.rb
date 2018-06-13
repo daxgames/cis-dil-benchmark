@@ -82,7 +82,7 @@ control 'cis-dil-benchmark-5.4.1.3' do
   end
 
   shadow_files.each do |f|
-    shadow(f).users(/.+/).entries.each do |user|
+    shadow(f).user(/.+/).entries.each do |user|
       next if (user.password && %w(* !)).any?
 
       describe user do
@@ -105,7 +105,7 @@ control 'cis-dil-benchmark-5.4.1.4' do
   end
 
   shadow_files.each do |f|
-    shadow(f).users(/.+/).entries.each do |user|
+    shadow(f).user(/.+/).entries.each do |user|
       next if (user.password && %w(* !)).any?
 
       describe user do
@@ -199,6 +199,6 @@ control 'cis-dil-benchmark-5.6' do
   tag level: 1
 
   describe file('/etc/pam.d/su') do
-    its(:content) { should match(/^auth required pam_wheel.so use_uid$/) }
+    its(:content) { should match(/^auth\s+required\s+pam_wheel.so use_uid$/) }
   end
 end
