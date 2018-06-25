@@ -141,7 +141,7 @@ if cis_level == '2'
     end
 
     processes(/.*/).where { pid > 0 }.entries.each do |p|
-      its(p.property_name) { should_not match /awsagent/ }
+      its(p.process_name) { should_not match /awsagent/ }
       describe p.label.to_s.split(':')[2] do
         it { should_not cmp 'initrc_t' }
       end
