@@ -140,7 +140,7 @@ if cis_level == '2'
       package('selinux').installed? || command('sestatus').exist?
     end
 
-    processes(/^((?!awsagent).)*$/).where { pid > 0 }.entries.each do |p|
+    processes(/.*/).where { pid > 0 }.entries.each do |p|
       describe p.label.to_s.split(':')[2] do
         it { should_not cmp 'initrc_t' }
       end
