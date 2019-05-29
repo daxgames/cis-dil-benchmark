@@ -56,8 +56,14 @@ control 'cis-dil-benchmark-2.2.1.2' do
     package('ntp').installed? || command('ntpd').exist?
   end
 
-  describe ntp_conf do
-    its(:server) { should_not eq nil }
+  describe.one do
+    describe ntp_conf do
+      its(:server) { should_not eq nil }
+    end
+
+    describe ntp_conf do
+      its(:pool) { should_not eq nil }
+    end
   end
 
   describe ntp_conf.restrict.to_s do
@@ -124,7 +130,7 @@ control 'cis-dil-benchmark-2.2.2' do
     its(:names) { should be_empty }
   end
 
-  describe packages(/^xorg-x11.*/) do
+  describe packages(/^xorg-x11-server.*/) do
     its(:names) { should be_empty }
   end
 end

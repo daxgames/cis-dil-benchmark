@@ -36,7 +36,7 @@ control 'cis-dil-benchmark-5.4.1.1' do
   end
 
   shadow_files.each do |f|
-    shadow(f).user(/.+/).entries.each do |user|
+    shadow(f).users(/.+/).entries.each do |user|
       next if (user.password && %w(* !)).any?
 
       describe user do
@@ -59,7 +59,7 @@ control 'cis-dil-benchmark-5.4.1.2' do
   end
 
   shadow_files.each do |f|
-    shadow(f).user(/.+/).entries.each do |user|
+    shadow(f).users(/.+/).entries.each do |user|
       next if (user.password && %w(* !)).any?
 
       describe user do
@@ -82,7 +82,7 @@ control 'cis-dil-benchmark-5.4.1.3' do
   end
 
   shadow_files.each do |f|
-    shadow(f).user(/.+/).entries.each do |user|
+    shadow(f).users(/.+/).entries.each do |user|
       next if (user.password && %w(* !)).any?
 
       describe user do
@@ -105,7 +105,7 @@ control 'cis-dil-benchmark-5.4.1.4' do
   end
 
   shadow_files.each do |f|
-    shadow(f).user(/.+/).entries.each do |user|
+    shadow(f).users(/.+/).entries.each do |user|
       next if (user.password && %w(* !)).any?
 
       describe user do
@@ -134,7 +134,7 @@ control 'cis-dil-benchmark-5.4.2' do
       end
 
       describe shadow(user.user) do
-        its(:password) { should be_all { |m| m == '*' } }
+        its(:passwords) { should be_all { |m| m == '*' } }
       end
     end
   end
@@ -163,15 +163,16 @@ control 'cis-dil-benchmark-5.4.4' do
 
   %w(bash.bashrc profile bashrc).each do |f|
     describe file("/etc/#{f}") do
-      its(:content) { should_not match(/^umask [01234567](0[7654321]|[7654321][654321])\s*(?:#.*)?$/) }
+      its(:content) { should_not match(/^\s*umask [01234567](0[7654321]|[7654321][654321])\s*(?:#.*)?$/) }
     end
   end
 
   describe.one do
     %w(bash.bashrc profile bashrc).each do |f|
       next unless file("/etc/#{f}").file?
+
       describe file("/etc/#{f}") do
-        its(:content) { should match(/^umask [01234567][2367]7\s*(?:#.*)?$/) }
+        its(:content) { should match(/^\s*umask [01234567][2367]7\s*(?:#.*)?$/) }
       end
     end
   end
